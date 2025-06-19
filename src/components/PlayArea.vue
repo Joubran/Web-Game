@@ -88,22 +88,29 @@
       </div>
     </div>
   </div>
+
+  <div class="modal-overlay" overflow: hidden>
+    <GameBoard ref="gameBoard" />
+  </div>
 </template>
 
 <script>
 import RulesModal from './RulesModal.vue';
 import ModalResults from './ModalResults.vue';
+import GameBoard from './HelloWorld.vue';
 
 export default {
   name: 'PlayArea',
   components: {
     RulesModal,
-    ModalResults
+    ModalResults,
+    GameBoard,
   },
   data() {
     return {
       showModal: false,
       showRulesModal: false,
+      showGameBoard: true,
       isMobileView: window.innerWidth <= 700
     };
   },
@@ -254,6 +261,7 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  overflow: hidden;
 }
 
 .modal-content {
