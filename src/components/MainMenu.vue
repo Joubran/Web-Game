@@ -10,7 +10,7 @@
       <div class="content">
         <h1>Container game</h1>
         <p>The game showcases greedy algorithms in action — locally optimal choices lead to global success.</p>
-        <button class="start-but">Play</button>
+        <button class="start-but" @click="goToPlay">Play</button>
         <button class="authors" @click="goToAuthors">Authors</button>
       </div>
     </div>
@@ -62,9 +62,17 @@ export default {
   },
   methods: {
     goToAuthors() {
-      console.log('Router:', this.$router); // Проверяем, что $router доступен
+      console.log('Router:', this.$router);
       if (this.$router) {
         this.$router.push('/authors');
+      } else {
+        console.error('$router is undefined!');
+      }
+    },
+    goToPlay() {
+      console.log('Navigating to PlayArea');
+      if (this.$router) {
+        this.$router.push('/play');
       } else {
         console.error('$router is undefined!');
       }
@@ -89,8 +97,8 @@ export default {
       });
 
       move();
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -198,6 +206,7 @@ h1, h2, h3 {
 }
 
 h1 {
+  text-align: center;
   align-items: center;
   font-size: 3rem;
   margin-bottom: 16px;
@@ -225,6 +234,12 @@ p {
 }
 .start-but{
   margin-bottom: 15px;
+}
+
+@media  (max-width: 1000px) {
+  .content h1{
+    font-size: 2.5rem;
+  }
 }
 
 

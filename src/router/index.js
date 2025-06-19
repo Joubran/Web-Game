@@ -12,6 +12,12 @@ const routes = [
         name: 'Authors',
         component: () => import('@/components/AuthorsPage.vue'),
         meta: { transition: 'fade' }
+    },
+    {
+        path: '/play',
+        name: 'PlayArea',
+        component: () => import('@/components/PlayArea.vue'),
+        meta: { transition: 'fade' }
     }
 ]
 
