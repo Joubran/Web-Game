@@ -28,23 +28,21 @@
                 '--cols': optimalMatrix[0] ? optimalMatrix[0].length : 0
               }"
             >
-              <!-- Render grid cells bottom-up -->
+              <!-- Render grid cells -->
               <template v-for="(row, rowIndex) in optimalMatrix" :key="rowIndex">
                 <div
                   v-for="(cell, colIndex) in row"
                   :key="`${rowIndex}-${colIndex}`"
                   class="cube"
                   :class="{ animate: animateCubes, placeholder: cell === 0 }"
-                  :style="{
-                    /* calculate delay so last row appears first */
-                    transitionDelay: `${((optimalMatrix.length - rowIndex - 1) * optimalMatrix[0].length + colIndex) * 100}ms`
-                  }"
+                  :style="{ transitionDelay: `${((optimalMatrix.length - rowIndex - 1) * optimalMatrix[0].length + colIndex) * 100}ms`
+ }"
                 ></div>
               </template>
             </div>
             <div class="btns">
               <button type="submit" class="submit-btn">OK</button>
-              <button type="button" class="submit-btn" @click="handleNext">NEXT</button>
+              <button type="submit" class="submit-btn" @click="handleNext">NEXT </button>
             </div>
           </form>
         </DialogContent>
