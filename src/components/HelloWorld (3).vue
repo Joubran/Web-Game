@@ -1,5 +1,5 @@
 <template>
-
+  <div class="holst">
     <div class="display">
       <div class="board">
         <div v-for="(columnBlocks, colIndex) in columns" :key="colIndex" class="column">
@@ -7,23 +7,18 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import Block from "./GameObject.vue";
-import { calculateOptimalSolution } from "../utils/solver.js";
-import {generateLevel} from "../data/levels.js";
 
 export default {
   components: { Block },
   data() {
     return {
-      board: [2, 5, 7, 1, 8],
-      blocks: [],
-      uniqueCount: 0,
-      optimalCount: 0,
-      MOBILE_MAX_WIDTH: 767,
-      isMobile: false,
+      board: [8, 8, 8, 8, 8, 8],
+      blocks: []
     }
   },
   created() {
@@ -38,13 +33,11 @@ export default {
         }
         cols[block.colIndex].push(block);
       });
-      // Сортируем блоки в каждом столбце по убыванию rowIndex
       Object.keys(cols).forEach(colIndex => {
         cols[colIndex].sort((a, b) => b.rowIndex - a.rowIndex);
       });
       return cols;
     },
-
     blockMatrix() {
       const num_cols = this.board.length;
       const max_height = Math.max(...this.board);
@@ -58,7 +51,7 @@ export default {
         }
       });
       return matrix;
-    },
+    }
   },
   methods: {
     isValidHeadTail(block) {
@@ -81,7 +74,7 @@ export default {
     },
 
     hasBlockBelow(colIndex, rowIndex) {
-      if (rowIndex === 1) return true; // Первый ряд всегда разрешён
+      if (rowIndex === 1) return true;
       return !!this.blocks.find(b => b.colIndex === colIndex && b.rowIndex === rowIndex - 1 && b.state === 'connected');
     },
 
@@ -90,23 +83,20 @@ export default {
     },
 
     initializeBlocks() {
-      this.updateUserSolution();
-
       this.blocks = [];
       this.board.forEach((height, colIndex) => {
         for (let rowIndex = 1; rowIndex <= height; rowIndex++) {
           const block = {
-            colIndex,
-            rowIndex,
+            colIndex: colIndex,
+            rowIndex: rowIndex,
             state: 'inactive',
             connectionIndex: null,
             type: null
           };
           this.blocks.push(block);
         }
-
-        this.optimalCount = calculateOptimalSolution(this.board).totalContainers;
       });
+      console.log('Инициализированы блоки:', this.blocks);
     },
 
     renumberConnectionIndices() {
@@ -125,37 +115,6 @@ export default {
         }
       });
       console.log('Перенумерованы индексы:', indexMap);
-    },
-
-    destroyTowerAbove(colIndex, rowIndex) {
-      const aboveContainers = this.blocks.filter(b =>
-          (b.colIndex === colIndex || b.colIndex === colIndex + 1) &&
-          b.rowIndex > rowIndex &&
-          b.state === 'connected'
-      );
-      if (aboveContainers.length === 0) return;
-      const connectionIndices = new Set(aboveContainers.map(b => b.connectionIndex));
-      for (const connIndex of connectionIndices) {
-        const containerBlocks = this.blocks.filter(b =>
-            b.connectionIndex === connIndex &&
-            b.state === 'connected'
-        );
-        if (containerBlocks.length === 2) {
-          containerBlocks.forEach(b => {
-            b.state = 'destroying';
-          });
-          setTimeout(() => {
-            containerBlocks.forEach(b => {
-              if (b.state === 'destroying') {
-                b.state = 'inactive';
-                b.connectionIndex = null;
-                b.type = null;
-              }
-            });
-          }, 500);
-        }
-      }
-
     },
 
     checkAndDestroyFloatingContainers() {
@@ -201,6 +160,36 @@ export default {
           }
         });
       });
+    },
+
+    destroyTowerAbove(colIndex, rowIndex) {
+      const aboveContainers = this.blocks.filter(b =>
+          (b.colIndex === colIndex || b.colIndex === colIndex + 1) &&
+          b.rowIndex > rowIndex &&
+          b.state === 'connected'
+      );
+      if (aboveContainers.length === 0) return;
+      const connectionIndices = new Set(aboveContainers.map(b => b.connectionIndex));
+      for (const connIndex of connectionIndices) {
+        const containerBlocks = this.blocks.filter(b =>
+            b.connectionIndex === connIndex &&
+            b.state === 'connected'
+        );
+        if (containerBlocks.length === 2) {
+          containerBlocks.forEach(b => {
+            b.state = 'destroying';
+          });
+          setTimeout(() => {
+            containerBlocks.forEach(b => {
+              if (b.state === 'destroying') {
+                b.state = 'inactive';
+                b.connectionIndex = null;
+                b.type = null;
+              }
+            });
+          }, 500);
+        }
+      }
     },
 
     handleBlockClick(block) {
@@ -258,76 +247,44 @@ export default {
         block.state = 'inactive';
         block.type = null;
       }
-      this.updateUserSolution();
     },
 
     getNextConnectionIndex() {
       const maxIndex = Math.max(...this.blocks.map(b => b.connectionIndex || 0));
       return maxIndex + 1;
-    },
-
-    getUserSolution(){
-      const uniqueItems = new Set();
-      const matrix = this.blockMatrix;
-
-      for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[0].length; j++) {
-          if(matrix[i][j]!=0){
-            uniqueItems.add(matrix[i][j]);
-          }
-        }
-      }
-      return uniqueItems.size;
-    },
-
-    updateUserSolution() {
-      this.uniqueCount = this.getUserSolution();
-    },
-
-    updateBoard(){
-      this.checkScreen();
-      
-      if(this.isMobile){
-        this.board = generateLevel(5).columns;
-      }
-      else{
-        this.board = generateLevel(10).columns;
-      }
-      
-      this.initializeBlocks();
-      this.updateUserSolution();
-    },
-
-    checkScreen() {
-      this.isMobile = window.innerWidth <= this.MOBILE_MAX_WIDTH
-    },
+    }
   }
 }
 </script>
 
 <style scoped>
-
+.holst {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+}
 
 .display {
-  z-index: 100000;
-  position: absolute;
-  border: 1px solid #0048ff;
   width: 80%;
   height: 80%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  border: 1.11px solid rgb(18, 113, 255);
   border-radius: 50px;
-  background: rgba(0, 0, 42, 0.5);
   backdrop-filter: blur(87.35px);
+  background: rgba(6, 24, 50, 0.67);
 }
 
 .board {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(6, 8vh); /* 6 столбцов по 8vh */
+  gap: 2px;
   justify-content: center;
-  align-items: flex-end;
-  box-sizing: border-box;
+  align-content: end;
   margin-bottom: 20px;
 }
 

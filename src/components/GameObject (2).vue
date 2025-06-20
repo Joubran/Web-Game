@@ -50,25 +50,20 @@ export default {
 
 <style scoped>
 .block {
-  width: calc((1vh + 1vh) * 3.5);
-  height: calc((1vh + 1vh) * 3.5);
-  border: 1.11px solid rgb(72, 120, 191);
-  border-radius: 10.93px;
-  backdrop-filter: blur(87.35px);
-  transition: 0.3s ease-in-out;
-  margin: 4px;
+  width: 8vh;
+  height: 8vh;
+  border: 2px solid #a8a599;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out; /* Плавное расширение */
+  margin: 2px;
   box-sizing: border-box;
-  position: relative;
+  position: relative; /* Для z-index */
   z-index: 1;
 }
 
 .block-active {
-  width: calc((1vh + 1vh) * 3.5);
-  height: calc((1vh + 1vh) * 3.5);
-  background-color: #9caac3;
-  border-radius: 10px;
-  margin: 4px;
-  transition: 0.3s;
+  background-color: #a8a599;
+  border: 2px solid #ff7171;
 }
 
 .block-connected {
@@ -78,32 +73,26 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .block-head {
-  /*
   background-color: #ffd700;
   border-color: #d4af37;
-  */
-  border-radius: 20%;
-  background: rgb(11, 86, 193);
 }
-
 .block-tail {
   opacity: 0;
 }
 
 .block-merged {
-  width: calc((1vh + 1vh) * 7);
+  width: 16vh;
   margin-right: -8vh;
   z-index: 2;
   border-radius: 10px;
 }
 
 .block:hover {
-  background-color: rgba(116, 118, 129, 0.61);
+  background-color: rgba(129, 124, 116, 0.61);
 }
 .block-active:hover {
-  background-color: rgba(100, 0, 177, 0.61);
+  background-color: rgba(177, 154, 0, 0.61);
 }
 .block-destroying {
   animation: destroy 0.5s ease-in-out forwards;
@@ -116,18 +105,6 @@ export default {
   100% {
     opacity: 0;
     transform: scale(0.5);
-  }
-}
-@media (max-width: 800px) {
-  .block {
-    width: calc((1vh + 1vh) * 3);
-    height: calc((1vh + 1vh) * 3);
-    margin: 3px;
-  }
-  .block-active {
-    width: calc((1vh + 1vh) * 3);
-    height: calc((1vh + 1vh) * 3);
-    margin: 3px;
   }
 }
 </style>

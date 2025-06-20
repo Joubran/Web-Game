@@ -208,7 +208,6 @@ body {
   width: 100%;
   min-height: 300px; 
   max-height: 600px; 
-  background-color: #f0f0f0; 
   border-radius: 12px;
   overflow: hidden; 
   padding: 10px;
@@ -217,12 +216,15 @@ body {
 }
 
 .cube {
+  height: 50%;
   width: 100%;
   padding-top: 100%;    // square
-  background: #4CAF50;
+  background: #764bdb;
   transform: scale(0);
   transition: transform 0.3s ease-out;
+  border-radius: 5px;
 }
+
 
 .cube.animate {
   transform: scale(1);
