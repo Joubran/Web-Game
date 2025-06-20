@@ -250,15 +250,16 @@ export default {
 
     updateBoard(){
       this.checkScreen();
-
+      
       if(this.isMobile){
         this.board = generateLevel(5).columns;
       }
       else{
         this.board = generateLevel(10).columns;
       }
-
+      
       this.initializeBlocks();
+      this.updateUserSolution();
     },
 
     checkScreen() {
