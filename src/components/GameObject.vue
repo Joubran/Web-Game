@@ -124,10 +124,11 @@ export default {
     height: calc((1vh + 1vh) * 3);
     margin: 3px;
   }
-  .block-active {
-    width: calc((1vh + 1vh) * 3);
-    height: calc((1vh + 1vh) * 3);
-    margin: 3px;
-  }
+  .block-merged {
+  width: calc((1vh + 1vh) * 7);
+  margin-right: -6.5vh;
+  z-index: 2;
+  border-radius: 10px;
+}
 }
 </style>
