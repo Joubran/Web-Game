@@ -63,7 +63,8 @@
   <RulesModal :show="showRulesModal" @close="showRulesModal = false" />
 
   <!-- Модальное окно с результатами -->
-  <ModalResults ref="resultsModal" />
+  <ModalResults ref="resultsModal" 
+  :updateBoard="updateBoard"/>
 
   <!-- Старое модальное окно (оставлено для совместимости) -->
   <div class="modal-overlay" v-if="showModal" @click.self="showModal = false">
@@ -101,6 +102,7 @@
 import RulesModal from './RulesModal.vue';
 import ModalResults from './ModalResults.vue';
 import GameBoard from './HelloWorld.vue';
+import { calculateOptimalSolution } from "../utils/solver.js";
 
 export default {
   name: 'PlayArea',
@@ -130,6 +132,9 @@ export default {
     window.removeEventListener('resize', this.handleResize);
   },
   methods: {
+    updateBoard() {
+      this.$refs.gameBoard.updateBoard();
+    },
     initInteractiveBubble() {
       const interBubble = document.querySelector('.interactive');
       let curX = 0;
@@ -157,6 +162,9 @@ export default {
     openResultsModal() {
       if (this.$refs.resultsModal) {
         this.$refs.resultsModal.open = true;
+        this.$refs.resultsModal.userSolution = this.$refs.gameBoard.uniqueCount;
+        this.$refs.resultsModal.optimalSolution = this.$refs.gameBoard.optimalCount;
+        this.$refs.resultsModal.optimalMatrix = calculateOptimalSolution(this.$refs.gameBoard.board).solutionMatrix;
       }
     }
   }

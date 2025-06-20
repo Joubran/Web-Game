@@ -25,7 +25,6 @@ export default {
     }
   },
   created() {
-    this.board = generateLevel(8).columns;
     this.initializeBlocks();
   },
   computed: {
@@ -56,9 +55,8 @@ export default {
           matrix[r][c] = block.connectionIndex;
         }
       });
-
       return matrix;
-    }
+    },
   },
   methods: {
     isValidHeadTail(block) {
@@ -90,6 +88,8 @@ export default {
     },
 
     initializeBlocks() {
+      this.updateUserSolution();
+
       this.blocks = [];
       this.board.forEach((height, colIndex) => {
         for (let rowIndex = 1; rowIndex <= height; rowIndex++) {
@@ -135,6 +135,7 @@ export default {
           }, 500);
         }
       }
+
     },
 
     checkAndDestroyFloatingContainers() {
@@ -219,12 +220,36 @@ export default {
         block.state = 'inactive';
         block.type = null;
       }
+      this.updateUserSolution();
     },
 
     getNextConnectionIndex() {
       const maxIndex = Math.max(...this.blocks.map(b => b.connectionIndex || 0));
       return maxIndex + 1;
-    }
+    },
+
+    getUserSolution(){
+      const uniqueItems = new Set();
+      const matrix = this.blockMatrix;
+
+      for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[0].length; j++) {
+          if(matrix[i][j]!=0){
+            uniqueItems.add(matrix[i][j]);
+          }
+        }
+      }
+      return uniqueItems.size;
+    },
+
+    updateUserSolution() {
+      this.uniqueCount = this.getUserSolution();
+    },
+
+    updateBoard(){
+      this.board = generateLevel(10).columns;
+      this.initializeBlocks();
+    },
   }
 }
 </script>

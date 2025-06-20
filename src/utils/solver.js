@@ -42,12 +42,14 @@ export function calculateOptimalSolution(columns) {
 
     backtrack(0, 0, Array.from({ length: height }, () => new Array(width).fill(0)));
 
+    // Reverse the matrix to flip it back to normal (top row first)
+    bestSolution.matrix = bestSolution.matrix.reverse();
+
     return {
         totalContainers: bestSolution.total,
         solutionMatrix: bestSolution.matrix
     };
 }
-
 
 
 // Тест 2

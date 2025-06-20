@@ -20,14 +20,28 @@
             </svg>
           </button>
           <form @submit.prevent="handleSubmit">
-            <h4>Your score:</h4>
-            <h4>Optimal score: </h4>
-            <div class="container">
-              <!-- Сюда можно вставить карту -->
+            <h4>Your score: {{ userSolution }}</h4>
+            <h4>Optimal score: {{ optimalSolution }} </h4>
+            <div
+              class="container"
+              :style="{
+                '--cols': optimalMatrix[0] ? optimalMatrix[0].length : 0
+              }"
+            >
+              <!-- Render grid cells -->
+              <template v-for="(row, rowIndex) in optimalMatrix" :key="rowIndex">
+                <div
+                  v-for="(cell, colIndex) in row"
+                  :key="`${rowIndex}-${colIndex}`"
+                  class="cube"
+                  :class="{ animate: animateCubes, placeholder: cell === 0 }"
+                  :style="{ transitionDelay: `${(rowIndex * optimalMatrix[0].length + colIndex) * 100}ms` }"
+                ></div>
+              </template>
             </div>
             <div class="btns">
-               <button type="submit" class="submit-btn">OK</button>
-              <button type="submit" class="submit-btn">NEXT</button>
+              <button type="submit" class="submit-btn">OK</button>
+              <button type="submit" class="submit-btn" @click="handleNext">NEXT </button>
             </div>
           </form>
         </DialogContent>
@@ -37,20 +51,45 @@
 </template>
 
 <script>
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot} from 'reka-ui'
+import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'reka-ui'
+import { nextTick } from 'vue'
 
 export default {
-  components: {
-    DialogContent,
-    DialogOverlay,
-    DialogPortal,
-    DialogRoot,
-  },
-  data() {
-    return {
-      open: false
+  props: {
+    updateBoard: {
+      type: Function,
+      required: true
     }
   },
+  components: { DialogContent, DialogOverlay, DialogPortal, DialogRoot},
+  data() {
+    return {
+      open: false,
+      userSolution: 0,
+      optimalSolution: 0,
+      optimalMatrix: [
+        [1, 0, 1, 1, 0],
+        [0, 1, 1, 0, 1],
+        [1, 1, 0, 1, 1],
+        [0, 0, 1, 1, 0]
+      ],
+      animateCubes: false
+    }
+  },
+
+  watch: {
+    open(val) {
+      if (val) {
+        // wait for DOM then animate cubes
+        nextTick(() => {
+          this.animateCubes = true
+        })
+      } else {
+        this.animateCubes = false
+      }
+    }
+  },
+
   methods: {
     wait() {
       return new Promise(resolve => setTimeout(resolve, 1000))
@@ -62,7 +101,10 @@ export default {
     },
     closeDialog() {
       this.open = false
-    }
+    },
+    handleNext() {
+      this.updateBoard();
+    },
   }
 }
 </script>
@@ -102,39 +144,22 @@ body {
   position: relative;
   min-width: 300px;
   max-width: 600px;
-  padding: 32px;
   border-radius: 36px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-  position: relative;
   z-index: 2;
   background: rgba(0, 0, 0, 0.5); 
   -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
-
   animation: fadeIn 0.4s ease-out;
   display: flex;
   flex-direction: column;
   align-items: center; 
-  justify-content: center; 
+  justify-content: center;
 
-  h3 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
-    color: #ffffff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    text-align: center;
-  }
   h4 {
     margin-bottom: 0;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    text-align: center;
-  }
-
-  p {
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.95rem;
     text-align: center;
   }
 
@@ -144,12 +169,12 @@ body {
     transition: transform 0.3s ease, background-color 0.3s ease;
     padding: 8px 16px;
     border-radius: 25px;
-    display: inline-block;
     background-color: transparent; 
     color: white;
     cursor: pointer;
   }
 }
+
 .close-btn {
   position: absolute;
   top: 12px;
@@ -160,7 +185,6 @@ body {
   padding: 4px;
   transition: transform 0.2s ease;
 
-
   svg {
     width: 24px;
     height: 24px;
@@ -168,25 +192,46 @@ body {
     transition: stroke 0.3s ease;
   }
 }
+
 .DialogContent form {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
+
 .container {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  grid-gap: 4px;
   width: 100%;
   min-height: 300px; 
   max-height: 600px; 
   background-color: #f0f0f0; 
   border-radius: 12px;
   overflow: hidden; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
   margin: 20px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+.cube {
+  width: 100%;
+  padding-top: 100%;    // square
+  background: #4CAF50;
+  transform: scale(0);
+  transition: transform 0.3s ease-out;
+}
+
+.cube.animate {
+  transform: scale(1);
+}
+
+.cube.placeholder {
+  background: transparent;
+  transition: none;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -197,7 +242,4 @@ body {
     transform: scale(1);
   }
 }
-// .btns {
-//   display: flex;
-// }
 </style>
