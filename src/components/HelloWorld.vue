@@ -22,6 +22,8 @@ export default {
       blocks: [],
       uniqueCount: 0,
       optimalCount: 0,
+      MOBILE_MAX_WIDTH: 767,
+      isMobile: false,
     }
   },
   created() {
@@ -247,8 +249,20 @@ export default {
     },
 
     updateBoard(){
-      this.board = generateLevel(10).columns;
+      this.checkScreen();
+
+      if(this.isMobile){
+        this.board = generateLevel(5).columns;
+      }
+      else{
+        this.board = generateLevel(10).columns;
+      }
+
       this.initializeBlocks();
+    },
+
+    checkScreen() {
+      this.isMobile = window.innerWidth <= this.MOBILE_MAX_WIDTH
     },
   }
 }
