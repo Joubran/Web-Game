@@ -26,72 +26,75 @@
     </div>
 
     <!-- Хедер с кнопками (показывается только на мобильных) -->
-    <div class="game-header" v-if="isMobileView">
-      <button class="help-btn" @click="showModal = true">?</button>
-      <button class="solve-btn" @click="openResultsModal">Solve</button>
-    </div>
 
-    <!-- Инструкции (показываются только на десктопах) -->
-    <div class="instructions-wrapper" v-if="!isMobileView">
-      <div class="instructions-card">
-        <h2>How to play:</h2>
-        <ol>
-          <li>The game board consists of columns with random heights (1 to 9 blocks).</li>
-          <li><strong>You can place a container between two adjacent columns if:</strong>
-            <ul>
-              <li>Both columns are tall enough at the current level.</li>
-              <li>The container won't float in mid-air or collide with others.</li>
-            </ul>
-          </li>
-        </ol>
-        
-        <div class="controls">
-          <h3>3. Controls:</h3>
-          <ul>
-            <li>Click/Tap between columns to place a container.</li>
-            <li>Auto-Solve — Press the "Solve" button to see the optimal solution.</li>
-          </ul>
-        </div>
-      </div>
-      <button class="solve-btn" @click="openResultsModal">Solve</button>
-    </div>
 
-    <!-- Модальное окно с правилами -->
-    <RulesModal :show="showRulesModal" @close="showRulesModal = false" />
-
-    <!-- Модальное окно с результатами -->
-    <ModalResults ref="resultsModal" />
-
-    <!-- Старое модальное окно (оставлено для совместимости) -->
-    <div class="modal-overlay" v-if="showModal" @click.self="showModal = false">
-      <div class="modal-content">
-        <button class="close-modal" @click="showModal = false">×</button>
-        <h2>How to play:</h2>
-        <ol>
-          <li>ё. The game board consists of columns with random heights (1 to 9 blocks).</li>
-          <li><strong>You can place a container between two adjacent columns if:</strong>
-            <ul>
-              <li>2. Both columns are tall enough at the current level.</li>
-              <li>The container won't float in mid-air or collide with others.</li>
-            </ul>
-          </li>
-        </ol>
-        
-        <div class="controls">
-          <h3>3. Controls:</h3>
-          <ul>
-            <li>Click/Tap between columns to place a container.</li>
-            <li>Auto-Solve — Press the "Solve" button to see the optimal solution.</li>
-          </ul>
-        </div>
-        <button class="modal-back-btn" @click="showModal = false">Back</button>
-      </div>
-    </div>
+  </div>
+  <div class="game-header" v-if="isMobileView">
+    <button class="help-btn" @click="showModal = true">?</button>
+    <button class="solve-btn" @click="openResultsModal">Solve</button>
   </div>
 
-  <div class="modal-overlay" overflow: hidden>
+  <!-- Инструкции (показываются только на десктопах) -->
+  <div class="instructions-wrapper" v-if="!isMobileView">
+    <div class="instructions-card">
+      <h2>How to play:</h2>
+      <ol>
+        <li>The game board consists of columns with random heights (1 to 9 blocks).</li>
+        <li><strong>You can place a container between two adjacent columns if:</strong>
+          <ul>
+            <li>Both columns are tall enough at the current level.</li>
+            <li>The container won't float in mid-air or collide with others.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="controls">
+        <h3>3. Controls:</h3>
+        <ul>
+          <li>Click/Tap between columns to place a container.</li>
+          <li>Auto-Solve — Press the "Solve" button to see the optimal solution.</li>
+        </ul>
+      </div>
+    </div>
+    <button class="solve-btn" @click="openResultsModal">Solve</button>
+  </div>
+
+  <!-- Модальное окно с правилами -->
+  <RulesModal :show="showRulesModal" @close="showRulesModal = false" />
+
+  <!-- Модальное окно с результатами -->
+  <ModalResults ref="resultsModal" />
+
+  <!-- Старое модальное окно (оставлено для совместимости) -->
+  <div class="modal-overlay" v-if="showModal" @click.self="showModal = false">
+    <div class="modal-content">
+      <button class="close-modal" @click="showModal = false">×</button>
+      <h2>How to play:</h2>
+      <ol>
+        <li>ё. The game board consists of columns with random heights (1 to 9 blocks).</li>
+        <li><strong>You can place a container between two adjacent columns if:</strong>
+          <ul>
+            <li>2. Both columns are tall enough at the current level.</li>
+            <li>The container won't float in mid-air or collide with others.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="controls">
+        <h3>3. Controls:</h3>
+        <ul>
+          <li>Click/Tap between columns to place a container.</li>
+          <li>Auto-Solve — Press the "Solve" button to see the optimal solution.</li>
+        </ul>
+      </div>
+      <button class="modal-back-btn" @click="showModal = false">Back</button>
+    </div>
+
+  </div>
+  <div class="GameBoard" >
     <GameBoard ref="gameBoard" />
   </div>
+
 </template>
 
 <script>
@@ -177,10 +180,10 @@ export default {
 }
 
 .gradient-bg {
-  width: 100vw;
+  z-index: 0 !important;
+  width: 100%;
   height: 100vh;
-  position: relative;
-  overflow: hidden;
+  position: absolute;
   background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
 }
 
@@ -224,15 +227,6 @@ export default {
   z-index: 10;
 }
 
-.instructions-card {
-  padding: 30px;
-  background: rgba(14, 26, 43, 0.7);
-  border-radius: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(18, 113, 255);
-  color: white;
-  font-family: 'Montserrat', sans-serif;
-}
 
 /* Кнопка Solve */
 .solve-btn {
@@ -252,10 +246,6 @@ export default {
 /* Модальное окно */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
@@ -277,7 +267,16 @@ export default {
   color: white;
   font-family: 'Montserrat', sans-serif;
 }
+.GameBoard {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80vw;
+  height: 100vh;
 
+}
 /* Адаптация для мобильных */
 @media (max-width: 700px) {
   

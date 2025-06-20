@@ -1,5 +1,5 @@
 <template>
-  <div class="holst">
+
     <div class="display">
       <div class="board">
         <div v-for="(columnBlocks, colIndex) in columns" :key="colIndex" class="column">
@@ -7,7 +7,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -230,24 +229,22 @@ export default {
 }
 </script>
 
-<style scoped>
-.holst {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+<style>
+
 
 .display {
+  z-index: 100000;
+  position: absolute;
+  border: 1px solid #0048ff;
   width: 80%;
   height: 80%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
 
-  border: 1.11px solid rgb(18, 113, 255);
+
   border-radius: 50px;
+  background: rgba(0, 0, 42, 0.5);
   backdrop-filter: blur(87.35px);
 }
 

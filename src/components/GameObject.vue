@@ -70,10 +70,10 @@ export default {
 
 .block-active {
   width: calc((1vh + 1vh) * 3.5);
-  height: calc((1vh + 1vh) * 4);
+  height: calc((1vh + 1vh) * 3.5);
   background-color: #a8a599;
   border-radius: 10px;
-  margin: 2px;
+  margin: 4px;
   transition: 0.3s;
 }
 
@@ -106,6 +106,11 @@ export default {
 
 @media (max-width: 800px) {
   .block {
+    width: calc((1vh + 1vh) * 3);
+    height: calc((1vh + 1vh) * 3);
+    margin: 3px;
+  }
+  .block-active {
     width: calc((1vh + 1vh) * 3);
     height: calc((1vh + 1vh) * 3);
     margin: 3px;

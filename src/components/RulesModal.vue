@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 ol, ul {
   list-style-type: none;
   padding-left: 0; /* Дополнительно убираем отступ слева */

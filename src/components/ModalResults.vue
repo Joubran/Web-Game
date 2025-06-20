@@ -3,7 +3,6 @@
     :open="open"
     @update:open="open = $event"
   >
-    <DialogTrigger class="DialogTrigger">Open</DialogTrigger>
     <DialogPortal>
       <DialogOverlay class="DialogOverlay" @click.stop>
         <!-- SVG noise filter -->
@@ -38,7 +37,7 @@
 </template>
 
 <script>
-import { DialogContent, DialogOverlay, DialogPortal, DialogRoot, DialogTrigger } from 'reka-ui'
+import { DialogContent, DialogOverlay, DialogPortal, DialogRoot} from 'reka-ui'
 
 export default {
   components: {
@@ -46,7 +45,6 @@ export default {
     DialogOverlay,
     DialogPortal,
     DialogRoot,
-    DialogTrigger
   },
   data() {
     return {
