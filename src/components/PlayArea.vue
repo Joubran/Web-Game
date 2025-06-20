@@ -39,10 +39,10 @@
     <div class="instructions-card">
       <h2>How to play:</h2>
       <ol>
-        <li>The game board consists of columns with random heights (1 to 9 blocks).</li>
+        <li>1. The game board consists of columns with random heights (1 to 9 blocks).</li>
         <li><strong>You can place a container between two adjacent columns if:</strong>
           <ul>
-            <li>Both columns are tall enough at the current level.</li>
+            <li>2. Both columns are tall enough at the current level.</li>
             <li>The container won't float in mid-air or collide with others.</li>
           </ul>
         </li>
@@ -71,7 +71,7 @@
       <button class="close-modal" @click="showModal = false">×</button>
       <h2>How to play:</h2>
       <ol>
-        <li>ё. The game board consists of columns with random heights (1 to 9 blocks).</li>
+        <li>1. The game board consists of columns with random heights (1 to 9 blocks).</li>
         <li><strong>You can place a container between two adjacent columns if:</strong>
           <ul>
             <li>2. Both columns are tall enough at the current level.</li>
@@ -114,7 +114,7 @@ export default {
       showModal: false,
       showRulesModal: false,
       showGameBoard: true,
-      isMobileView: window.innerWidth <= 700
+      isMobileView: window.innerWidth <= 1400
     };
   },
   mounted() {
@@ -152,7 +152,7 @@ export default {
       move();
     },
     handleResize() {
-      this.isMobileView = window.innerWidth <= 700;
+      this.isMobileView = window.innerWidth <= 1400;
     },
     openResultsModal() {
       if (this.$refs.resultsModal) {
@@ -164,7 +164,22 @@ export default {
 </script>
 
 <style>
-  
+* {
+  margin:0;
+  padding:0;
+  outline:none;
+  list-style:none;
+  text-decoration:none;
+  box-sizing:border-box;
+  color:#FFF;
+  border:none;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 /* Основные стили */
 :root {
   --color-bg1: rgb(8, 10, 15);
@@ -180,11 +195,14 @@ export default {
 }
 
 .gradient-bg {
-  z-index: 0 !important;
-  width: 100%;
+  z-index: 0;
+  width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+  background-size: cover;
 }
 
 /* Хедер с кнопками (для мобильных) */
@@ -195,12 +213,12 @@ export default {
   right: 20px;
   display: flex;
   justify-content: space-between;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .help-btn {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: rgba(14, 26, 43, 0.7);
   border: 1px solid rgba(18, 113, 255);
@@ -218,7 +236,7 @@ export default {
 /* Инструкции для десктопа */
 .instructions-wrapper {
   position: absolute;
-  top: 50px;
+  top: 80px;
   right: 50px;
   display: flex;
   flex-direction: column;
@@ -277,35 +295,8 @@ export default {
   height: 100vh;
 
 }
-/* Адаптация для мобильных */
-@media (max-width: 700px) {
-  
-  .help-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 20px;
-  }
-  
-  .solve-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-  
-  .modal-content {
-    padding: 20px;
-  }
-}
 
-/* Инструкции для десктопа */
-.instructions-wrapper {
-  position: absolute;
-  inset: 50px 50px auto auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 320px;
-  z-index: 10;
-}
+
 
 .instructions-card {
   padding: 30px;
@@ -434,7 +425,13 @@ export default {
 
 /* Остальные стили фона (без изменений) */
 .svgBlur {
-  display: none;
+    display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
 .noiseBg {
@@ -539,23 +536,26 @@ export default {
 }
 
 /* Адаптация для мобильных устройств */
-@media (max-width: 700px) {
+@media (max-width: 1400px) {
+  .GameBoard{
+    width: 100vw;
+  }
   .instructions-wrapper {
     display: none;
   }
   
   .help-btn {
-    width: 36px;
-    height: 36px;
+    
     font-size: 20px;
   }
   
   .solve-btn {
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: 20px;
   }
   
   .modal-content {
+    padding-inline: 50px;
     padding: 20px;
   }
 }

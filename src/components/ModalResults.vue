@@ -139,6 +139,7 @@ body {
   }
 
   .submit-btn {
+    border: none;
     font-size: 16px;
     transition: transform 0.3s ease, background-color 0.3s ease;
     padding: 8px 16px;

@@ -229,7 +229,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 
 .display {
@@ -241,8 +241,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-
-
   border-radius: 50px;
   background: rgba(0, 0, 42, 0.5);
   backdrop-filter: blur(87.35px);

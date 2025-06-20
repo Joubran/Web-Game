@@ -9,7 +9,7 @@
       </svg>
       <div class="content">
         <h1>Container game</h1>
-        <p>The game showcases greedy algorithms in action — locally optimal choices lead to global success.</p>
+        <p>The game show cases greedy algorithms in action — locally optimal choices lead to global success.</p>
         <button class="start-but" @click="goToPlay">Play</button>
         <button class="authors" @click="goToAuthors">Authors</button>
       </div>
