@@ -35,8 +35,14 @@
                   :key="`${rowIndex}-${colIndex}`"
                   class="cube"
                   :class="{ animate: animateCubes, placeholder: cell === 0 }"
-                  :style="{ transitionDelay: `${((optimalMatrix.length - rowIndex - 1) * optimalMatrix[0].length + colIndex) * 100}ms`
- }"
+                  :style="{
+                    transitionDelay: 
+                      animationDelayMatrix.length > 0 && 
+                      animationDelayMatrix[rowIndex] && 
+                      animationDelayMatrix[rowIndex][colIndex] >= 0 
+                        ? `${animationDelayMatrix[rowIndex][colIndex]}ms`
+                        : `${((optimalMatrix.length - rowIndex - 1) * optimalMatrix[0].length + colIndex) * 100}ms`
+                  }"
                 ></div>
               </template>
             </div>
@@ -74,7 +80,8 @@ export default {
         [1, 1, 0, 1, 1],
         [0, 0, 1, 1, 0]
       ],
-      animateCubes: false
+      animateCubes: false,
+      animationDelayMatrix: []  // NEW: Store computed animation delays
     }
   },
 
@@ -84,9 +91,11 @@ export default {
         // wait for DOM then animate cubes
         nextTick(() => {
           this.animateCubes = true
+          this.computeAnimationDelays()  // NEW: Compute delays when opening
         })
       } else {
         this.animateCubes = false
+        this.animationDelayMatrix = []   // NEW: Reset when closing
       }
     }
   },
@@ -106,6 +115,55 @@ export default {
     handleNext() {
       this.updateBoard();
     },
+
+    // NEW: Compute animation delays based on algorithm
+    computeAnimationDelays() {
+      if (!this.optimalMatrix || this.optimalMatrix.length === 0) {
+        return;
+      }
+      
+      const rows = this.optimalMatrix.length;
+      const cols = this.optimalMatrix[0].length;
+      const delayMatrix = Array(rows).fill(0).map(() => Array(cols).fill(-1));
+      const visited = Array(rows).fill(0).map(() => Array(cols).fill(false));
+      const maxLevels = rows;
+      let groupIndex = 0;
+
+      // Process columns left to right
+      for (let col = 0; col < cols; col++) {
+        let foundPairInThisCol = false;
+        
+        // Process rows bottom to top
+        for (let row = rows-1; row >=0; row--) {
+          if (!visited[row][col] && this.optimalMatrix[row][col] === 1) {
+            // Check for adjacent container to form pair
+            if (col+1 < cols && this.optimalMatrix[row][col+1] === 1 && !visited[row][col+1]) {
+              // Mark both containers as visited
+              visited[row][col] = true;
+              visited[row][col+1] = true;
+              
+              // Calculate level from bottom
+              const levelInPair = rows - 1 - row;
+              
+              // Compute delay: groupIndex * maxLevels + levelInPair
+              const delay = (groupIndex * maxLevels + levelInPair) * 100;
+              
+              // Set delay for both containers in pair
+              delayMatrix[row][col] = delay;
+              delayMatrix[row][col+1] = delay;
+              
+              foundPairInThisCol = true;
+            }
+          }
+        }
+        
+        if (foundPairInThisCol) {
+          groupIndex++;
+        }
+      }
+      
+      this.animationDelayMatrix = delayMatrix;
+    }
   }
 }
 </script>
