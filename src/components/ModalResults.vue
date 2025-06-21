@@ -20,8 +20,8 @@
             </svg>
           </button>
           <form @submit.prevent="handleSubmit">
-            <h4>Your score: {{ userSolution }}</h4>
-            <h4>Optimal score: {{ optimalSolution }} </h4>
+            <h4>Ваш результат: {{ userSolution }}</h4>
+            <h4>Оптимальный результат: {{ optimalSolution }} </h4>
             <div
               class="container"
               :style="{
@@ -47,8 +47,8 @@
               </template>
             </div>
             <div class="btns">
-              <button type="submit" class="submit-btn">OK</button>
-              <button type="submit" class="submit-btn" @click="handleNext">NEXT </button>
+              <button type="submit" class="submit-btn">ОК</button>
+              <button type="submit" class="submit-btn" @click="handleNext">ДАЛЬШЕ</button>
             </div>
           </form>
         </DialogContent>
@@ -216,7 +216,7 @@ body {
   justify-content: center;
 
   h4 {
-    margin-bottom: 0;
+    margin-top: 10px;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     text-align: center;
@@ -264,7 +264,7 @@ body {
   grid-template-columns: repeat(var(--cols), 1fr);
   grid-gap: 4px;
   width: 100%;
-  min-height: 300px; 
+  
   max-height: 600px; 
   border-radius: 12px;
   overflow: hidden; 

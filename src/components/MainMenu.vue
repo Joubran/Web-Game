@@ -9,9 +9,9 @@
       </svg>
       <div class="content">
         <h1>Container game</h1>
-        <p>The game show cases greedy algorithms in action — locally optimal choices lead to global success.</p>
-        <button class="start-but" @click="goToPlay">Play</button>
-        <button class="authors" @click="goToAuthors">Authors</button>
+        <p>Игра демонстрирует примеры жадных алгоритмов в действии — локальный оптимальный выбор приводит к глобальному успеху.</p>
+        <button class="start-but" @click="goToPlay">Играть</button>
+        <button class="authors" @click="goToAuthors">Авторы</button>
       </div>
     </div>
   </div>

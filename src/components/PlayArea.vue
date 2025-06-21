@@ -31,32 +31,32 @@
   </div>
   <div class="game-header" v-if="isMobileView">
     <button class="help-btn" @click="showModal = true">?</button>
-    <button class="solve-btn" @click="openResultsModal">Solve</button>
+    <button class="solve-btn" @click="openResultsModal">Проверить</button>
   </div>
 
   <!-- Инструкции (показываются только на десктопах) -->
   <div class="instructions-wrapper" v-if="!isMobileView">
     <div class="instructions-card">
-      <h2>How to play:</h2>
+      <h2>Как играть:</h2>
       <ol>
-        <li>1. The game board consists of columns with random heights (1 to 9 blocks).</li>
-        <li><strong>You can place a container between two adjacent columns if:</strong>
+        <li>1. Игровое поле состоит из столбцов случайной высоты (от 1 до 9 блоков).</li>
+        <li><strong>2. Вы можете разместить контейнер между двумя соседними столбцами, если:</strong>
           <ul>
-            <li>2. Both columns are tall enough at the current level.</li>
-            <li>The container won't float in mid-air or collide with others.</li>
+            <li>Обе колонки достаточно высокие на текущем уровне.</li>
+            <li>Контейнер не  висит в воздухе и не сталкиваться с другими.</li>
           </ul>
         </li>
       </ol>
 
       <div class="controls">
-        <h3>3. Controls:</h3>
+        <h3>3. Управление:</h3>
         <ul>
-          <li>Click/Tap between columns to place a container.</li>
-          <li>Auto-Solve — Press the "Solve" button to see the optimal solution.</li>
+          <li>Щелкните/коснитесь между столбцами, чтобы разместить контейнер.</li>
+          <li>Авторешение — нажмите кнопку «Проверить», чтобы увидеть оптимальное решение.</li>
         </ul>
       </div>
     </div>
-    <button class="solve-btn" @click="openResultsModal">Solve</button>
+    <button class="solve-btn" @click="openResultsModal">Проверить</button>
   </div>
 
   <!-- Модальное окно с правилами -->
@@ -70,25 +70,25 @@
   <div class="modal-overlay" v-if="showModal" @click.self="showModal = false">
     <div class="modal-content">
       <button class="close-modal" @click="showModal = false">×</button>
-      <h2>How to play:</h2>
+      <h2>Как играть:</h2>
       <ol>
-        <li>1. The game board consists of columns with random heights (1 to 9 blocks).</li>
-        <li><strong>You can place a container between two adjacent columns if:</strong>
+        <li>1. Игровое поле состоит из столбцов случайной высоты (от 1 до 9 блоков).</li>
+        <li><strong>2. Вы можете разместить контейнер между двумя соседними столбцами, если:</strong>
           <ul>
-            <li>2. Both columns are tall enough at the current level.</li>
-            <li>The container won't float in mid-air or collide with others.</li>
+            <li>Обе колонки достаточно высокие на текущем уровне.</li>
+            <li>Контейнер не  висит в воздухе и не сталкиваться с другими.</li>
           </ul>
         </li>
       </ol>
 
       <div class="controls">
-        <h3>3. Controls:</h3>
+        <h3>3. Управление:</h3>
         <ul>
-          <li>Click/Tap between columns to place a container.</li>
-          <li>Auto-Solve — Press the "Solve" button to see the optimal solution.</li>
+          <li>Щелкните/коснитесь между столбцами, чтобы разместить контейнер.</li>
+          <li>Авторешение — нажмите кнопку «Проверить», чтобы увидеть оптимальное решение.</li>
         </ul>
       </div>
-      <button class="modal-back-btn" @click="showModal = false">Back</button>
+      <button class="modal-back-btn" @click="showModal = false">ОК</button>
     </div>
 
   </div>

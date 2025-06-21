@@ -19,7 +19,7 @@
           filter="url(#noiseFilter)" />
     </svg>
     <div class="content">
-      <h1>Authors:</h1>
+      <h1>Авторы:</h1>
       <div class="au">
         <p>Махно София @fudori_kaito</p>
         <p>Ванчикова Юмжана @mtifyuu</p>
@@ -28,7 +28,7 @@
         <p>Альбуний Джобран @Joubran13</p>
       </div>
     </div>
-    <button class="btn-back" @click="goBack">Back</button>
+    <button class="btn-back" @click="goBack">Назад</button>
   </div>
   <div class="gradient-bg">
     <svg
